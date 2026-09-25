@@ -102,18 +102,89 @@ body {
 }
 
 .popup-desc {
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 11.5px;
+  line-height: 1.45;
   color: #888;
 }
 
-/* ── Feature List ──────────────────────────────────────────────────── */
-.popup-section h3 {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #555;
-  margin-bottom: 8px;
+/* ── Desplegable de Funcionalidades ────────────────────────────────── */
+.popup-collapsible {
+  width: 100%;
+}
+
+.popup-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 600;
+  color: #cbd5e1;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.popup-summary::-webkit-details-marker {
+  display: none;
+}
+
+.popup-summary:hover {
+  background: rgba(46, 204, 113, 0.08);
+  border-color: rgba(46, 204, 113, 0.3);
+  color: #ffffff;
+}
+
+.summary-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: inherit;
+}
+
+.summary-left svg {
+  color: #2ecc71;
+  flex-shrink: 0;
+}
+
+.chevron-icon {
+  color: #718096;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.15s ease;
+}
+
+details[open] .popup-summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+details[open] .chevron-icon {
+  transform: rotate(180deg);
+  color: #2ecc71;
+}
+
+.collapsible-body {
+  padding: 10px 12px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: none;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeInDown 0.18s ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .feature-list {
@@ -131,13 +202,13 @@ body {
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  font-size: 12px;
+  font-size: 11.5px;
   color: #bbb;
 }
 
 .feature-icon {
-  font-size: 14px;
-  width: 20px;
+  font-size: 13px;
+  width: 18px;
   text-align: center;
 }
 
@@ -145,7 +216,15 @@ body {
 .popup-footer {
   padding: 10px 16px;
   text-align: center;
-  font-size: 10px;
-  color: #444;
+  font-size: 10.5px;
+  color: #666;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.popup-author {
+  font-size: 10px;
+  color: #888;
 }

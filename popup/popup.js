@@ -38,7 +38,9 @@
           const body = document.getElementById('layout100');
           if (body && body.classList.contains('ondevelope')) return 'FlexMind IDE';
           // UPSTI IDE
-          if (document.body.classList.contains('enable-motion') && document.querySelector('.titlebar')) return 'UPSTI IDE';
+          if ((document.body.classList.contains('enable-motion') && document.querySelector('.titlebar')) ||
+              window.location.href.includes('/ideFlex/upsti') ||
+              window.location.pathname.includes('/upsti')) return 'UPSTI IDE';
           // SIGAPP
           if (document.querySelector('.openSys[data-url]') || document.getElementById('browser') || window.location.hostname.includes('sigapp')) return 'SIGAPP (Vistas)';
           return null;
@@ -54,4 +56,16 @@
       }
     );
   });
+
+  // Recordar estado de apertura del desplegable (por defecto cerrado)
+  const collapsible = document.querySelector('.popup-collapsible');
+  if (collapsible) {
+    const savedState = localStorage.getItem('flexguard_popup_features');
+    if (savedState === 'open') {
+      collapsible.open = true;
+    }
+    collapsible.addEventListener('toggle', () => {
+      localStorage.setItem('flexguard_popup_features', collapsible.open ? 'open' : 'closed');
+    });
+  }
 })();
