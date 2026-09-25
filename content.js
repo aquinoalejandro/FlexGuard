@@ -49,18 +49,150 @@
     }, 3000);
   }
 
-  /** Badge indicador de FlexGuard activo */
+  /** Badge indicador de FlexGuard activo con soporte para avisos de actualización */
   function injectBadge() {
-    if (document.getElementById('flexguard-badge')) return;
-    const badge = document.createElement('div');
-    badge.id = 'flexguard-badge';
-    badge.className = 'flexguard-badge';
+    let badge = document.getElementById('flexguard-badge');
+    if (!badge) {
+      badge = document.createElement('div');
+      badge.id = 'flexguard-badge';
+      badge.className = 'flexguard-badge';
+      badge.innerHTML = `
+        <span class="flexguard-badge__dot"></span>
+        <span class="flexguard-badge__text">FlexGuard</span>
+      `;
+      badge.title = 'FlexGuard está activo';
+      document.body.appendChild(badge);
+    }
+
+    // Comprobar si hay una actualización de GitHub disponible
+    checkUpdateNotification(badge);
+  }
+
+  /** Consulta al background si hay actualizaciones de GitHub disponibles */
+  function checkUpdateNotification(badge) {
+    if (!chrome.runtime || !chrome.runtime.sendMessage) return;
+
+    try {
+      chrome.runtime.sendMessage({ action: 'GET_UPDATE_INFO' }, (response) => {
+        if (chrome.runtime.lastError || !response || !response.info) return;
+
+        const info = response.info;
+        const isDismissed = (response.dismissed && response.dismissed === info.remoteSha);
+
+        if (info.hasUpdate && !isDismissed) {
+          applyBadgeUpdateUI(badge, info);
+          showUpdateBannerOnce(info);
+        }
+      });
+    } catch (e) {
+      // Ignorar si el contexto de la extensión se reinició
+    }
+  }
+
+  /** Aplica el estilo y popover interactivo al badge del IDE */
+  function applyBadgeUpdateUI(badge, info) {
+    if (!badge) return;
+    badge.classList.add('flexguard-badge--has-update');
     badge.innerHTML = `
-      <span class="flexguard-badge__dot"></span>
+      <span class="flexguard-badge__dot flexguard-badge__dot--pulse"></span>
       <span class="flexguard-badge__text">FlexGuard</span>
+      <span class="flexguard-badge__pill">Actualización</span>
     `;
-    badge.title = 'FlexGuard está activo';
-    document.body.appendChild(badge);
+    badge.title = `Actualización de FlexGuard en GitHub: "${info.commitMsg || ''}" (Clic para ver)`;
+
+    badge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const existing = document.getElementById('flexguard-update-popover');
+      if (existing) {
+        existing.remove();
+        return;
+      }
+
+      const popover = document.createElement('div');
+      popover.id = 'flexguard-update-popover';
+      popover.className = 'flexguard-update-popover';
+      popover.innerHTML = `
+        <div class="flexguard-update-popover__header">
+          <div class="flexguard-update-popover__title">
+            <span>⚡ Nueva versión en GitHub</span>
+          </div>
+          <button class="flexguard-update-popover__close" id="fgPopoverClose" title="Cerrar">✕</button>
+        </div>
+        <div class="flexguard-update-popover__body">
+          <span>Hay una nueva versión de FlexGuard con mejoras de código:</span>
+          <div class="flexguard-update-popover__commit">
+            "${escapeText(info.commitMsg || 'Mejoras en el código')}"
+          </div>
+          <span style="font-size: 10px; color: #94a3b8;">Commit #${escapeText(info.remoteShort || '')} • ${escapeText(info.author || 'aquinoalejandro')}</span>
+        </div>
+        <div class="flexguard-update-popover__actions">
+          <a href="${info.zipDownloadUrl || 'https://github.com/aquinoalejandro/FlexGuard/archive/refs/heads/main.zip'}" target="_blank" class="flexguard-update-popover__btn flexguard-update-popover__btn--primary">
+            Descargar .ZIP
+          </a>
+          <a href="${info.commitUrl || 'https://github.com/aquinoalejandro/FlexGuard/commits/main'}" target="_blank" class="flexguard-update-popover__btn flexguard-update-popover__btn--secondary">
+            Ver cambios ↗
+          </a>
+        </div>
+      `;
+
+      document.body.appendChild(popover);
+
+      const btnClose = popover.querySelector('#fgPopoverClose');
+      if (btnClose) {
+        btnClose.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          popover.remove();
+        });
+      }
+    });
+
+    // Cerrar popover al hacer clic fuera
+    document.addEventListener('click', (e) => {
+      const popover = document.getElementById('flexguard-update-popover');
+      if (popover && !popover.contains(e.target) && !badge.contains(e.target)) {
+        popover.remove();
+      }
+    });
+  }
+
+  /** Muestra banner deslizable 1 sola vez por pestaña/sesión para no ser invasivo */
+  function showUpdateBannerOnce(info) {
+    if (sessionStorage.getItem('flexguard_update_banner_shown') === info.remoteSha) return;
+
+    const banner = document.createElement('div');
+    banner.className = 'flexguard-update-banner';
+    banner.innerHTML = `
+      <div class="flexguard-update-banner__icon">⚡</div>
+      <div class="flexguard-update-banner__text">
+        <span class="flexguard-update-banner__title">FlexGuard: Actualización disponible en GitHub</span>
+        <span class="flexguard-update-banner__desc">${escapeText(info.commitMsg || 'Nuevas mejoras de código disponibles')}</span>
+      </div>
+      <div class="flexguard-update-banner__actions">
+        <a href="${info.commitUrl || 'https://github.com/aquinoalejandro/FlexGuard/commits/main'}" target="_blank" class="flexguard-update-banner__btn">
+          Ver cambios
+        </a>
+        <button class="flexguard-update-banner__close" title="Cerrar">✕</button>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+    sessionStorage.setItem('flexguard_update_banner_shown', info.remoteSha || '1');
+
+    const closeBtn = banner.querySelector('.flexguard-update-banner__close');
+    const dismiss = () => {
+      banner.classList.add('hiding');
+      setTimeout(() => banner.remove(), 250);
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', dismiss);
+    setTimeout(dismiss, 12000);
+  }
+
+  function escapeText(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
   }
 
   // ╔══════════════════════════════════════════════════════════════════╗

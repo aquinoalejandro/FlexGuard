@@ -32,25 +32,43 @@ FlexGuard es una extension de navegador pensada para facilitar el trabajo diario
 * **Inspector de modulos en tiempo real:** Al pasar el cursor sobre cualquier opcion del menu lateral izquierdo o del buscador de modulos, aparece un panel flotante que indica la ruta completa del archivo PHP (por ejemplo: `modulos/atp_acta_05/php/ver_atp_acta_05.php`) y su identificador.
 * **Atajo para copiar la ruta:** Manteniendo presionada la tecla Alt y haciendo clic sobre cualquier opcion del menu, la extension copia la ruta del archivo al portapapeles y te avisa mediante una notificacion en pantalla. Al pasar a la pestaña del IDE, podes presionar Ctrl+P o hacer clic en el boton de pegar del buscador para abrirlo al instante.
 
+### 4. Auto-actualizador desde GitHub
+* **Monitoreo automático:** La extensión comprueba periódicamente el repositorio [aquinoalejandro/FlexGuard](https://github.com/aquinoalejandro/FlexGuard) para detectar nuevos commits y versiones publicadas.
+* **Avisos integrados:**
+  * **Insignia en el navegador:** Muestra una etiqueta `NEW` sobre el icono de la extensión en la barra de Chrome cuando hay novedades.
+  * **Tarjeta en el Popup:** Te indica si estás al día o si hay una actualización disponible, detallando el mensaje del commit, autor, fecha, botón de descarga directa de ZIP y botón para copiar `git pull`.
+  * **Notificación en el IDE:** En la esquina inferior derecha de FlexMind / UPSTI IDE, el indicador de FlexGuard muestra una etiqueta interactiva de actualización y un aviso flotante.
+* **Actualización en un clic en Windows:** Incluye el archivo `actualizar.bat` para actualizar el código automáticamente con doble clic.
+
 ---
 
-## Como instalarla en Chrome o Edge
+## Cómo instalarla en Chrome o Edge
 
-1. Abri tu navegador e ingresa a `chrome://extensions/`.
-2. Activa el **Modo de desarrollador** (suele estar arriba a la derecha).
-3. Hace clic en el boton **Cargar extension sin empaquetar**.
-4. Selecciona la carpeta `FlexGuard/`.
-5. Listo. La extension ya estara activa en tus pestañas de trabajo.
+1. Abrí tu navegador e ingresá a `chrome://extensions/`.
+2. Activá el **Modo de desarrollador** (suele estar arriba a la derecha).
+3. Hacé clic en el botón **Cargar extensión sin empaquetar**.
+4. Seleccioná la carpeta `FlexGuard/`.
+5. Listo. La extensión ya estará activa en tus pestañas de trabajo.
 
-*Nota:* Si realizas cambios en el codigo de la extension, solo debes presionar el boton de recarga (la flecha circular) en la tarjeta de FlexGuard dentro de `chrome://extensions/` y refrescar la pagina donde estes trabajando.
+---
+
+## Cómo actualizar la extensión
+
+Cuando FlexGuard te avise que hay cambios nuevos en GitHub:
+1. **Opción A (Recomendada si tenés Git):** Hacé doble clic en `actualizar.bat` o ejecutá `git pull origin main` en la terminal.
+2. **Opción B (Sin Git):** Descargá el archivo `.ZIP` desde el aviso del popup o GitHub y reemplazá los archivos en la carpeta de la extensión.
+3. **Paso final:** Ingresá a `chrome://extensions/`, hacé clic en el botón de **Recargar** (la flecha circular) en la tarjeta de FlexGuard y refrescá tus pestañas del IDE.
 
 ---
 
 ## Estructura de archivos
 
-* `manifest.json`: Archivo de configuracion de la extension (Manifest V3).
-* `content.js`: Script principal inyectado en las paginas. Se encarga de la interfaz visual, eventos del raton, atajos de teclado y gestion de descargas.
-* `content_main.js`: Script puente que corre en el contexto de la pagina web para acceder directamente a las instancias de Monaco Editor y variables globales del IDE.
-* `content.css`: Estilos visuales de los botones inyectados, notificaciones toast y el panel flotante de modulos.
-* `popup/`: Ventana que se abre al hacer clic sobre el icono de la extension en la barra del navegador, mostrando el estado de deteccion del sistema activo.
-* `icons/`: Iconos de la extension en formato PNG transparente de 16, 48 y 128 pixeles.
+* `manifest.json`: Archivo de configuración de la extensión (Manifest V3 con permisos para background y almacenamiento).
+* `version.js`: Metadatos centrales de versión, commit y enlaces del repositorio GitHub.
+* `background.js`: Service worker en segundo plano que consulta la API de GitHub y administra las alarmas y badges.
+* `actualizar.bat`: Script rápido para actualizar el código localmente en Windows con un clic.
+* `content.js`: Script principal inyectado en las páginas. Gestiona interfaz visual, atajos, descargas y el aviso de actualización en el IDE.
+* `content_main.js`: Script puente que corre en el contexto de la página web para acceder a Monaco Editor y variables del sistema.
+* `content.css`: Estilos visuales de los botones inyectados, modales, toasts y la tarjeta flotante de actualización.
+* `popup/`: Ventana emergente con el estado de detección del IDE, centro de actualizaciones con GitHub y resumen de funciones.
+* `icons/`: Íconos de la extensión en formato PNG transparente de 16, 48 y 128 píxeles.
