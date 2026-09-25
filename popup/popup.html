@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FlexGuard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="popup-logo">
+        <img src="../icons/icon48.png" alt="FlexGuard" width="28" height="28">
+        <div>
+          <h1>FlexGuard</h1>
+          <span class="popup-version">v1.0.0</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="popup-body">
+      <div class="popup-status" id="status">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-text" id="statusText">Detectando IDE...</span>
+      </div>
+
+      <p class="popup-desc">
+        Extensión para respaldar archivos de proyectos en FlexMind IDE y UPSTI IDE. 
+        Se agrega automáticamente un botón de descarga 
+        <strong style="color:#2ecc71;">⬇</strong> en la barra de herramientas del editor activo.
+      </p>
+
+      <div class="popup-section">
+        <h3>Funcionalidades</h3>
+        <ul class="feature-list">
+          <li>
+            <span class="feature-icon">📥</span>
+            <span>Botón de descarga individual por archivo</span>
+          </li>
+          <li>
+            <span class="feature-icon">📦</span>
+            <span>Descarga masiva de archivos abiertos</span>
+          </li>
+          <li>
+            <span class="feature-icon">🔄</span>
+            <span>Detección automática de nuevos archivos</span>
+          </li>
+          <li>
+            <span class="feature-icon">🔀</span>
+            <span>Compatible con FlexMind y UPSTI IDE</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="popup-footer">
+      <span>Hecho para FlexMind IDE</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

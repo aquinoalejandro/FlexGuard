@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "FlexGuard",
+  "version": "1.0.0",
+  "description": "Respaldar automáticamente archivos de proyectos hechos en FlexMind IDE. Agrega un botón de descarga integrado en la barra de herramientas del editor.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_main.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}
