@@ -290,8 +290,11 @@
   const upstiIDE = {
 
     detect() {
-      return document.body.classList.contains('enable-motion') &&
-             !!document.querySelector('.titlebar');
+      const url = window.location.href;
+      return url.includes('/ideFlex/upsti') ||
+             url.includes('/upsti/') ||
+             (document.body.classList.contains('enable-motion') &&
+             !!document.querySelector('.titlebar'));
     },
 
     /** Nombre del archivo activo desde el breadcrumb, panel de info o árbol */
@@ -586,6 +589,25 @@
     selectedIndex: 0,
     isOpen: false,
 
+    /** Determina si el entorno actual debe usar tema oscuro (ej: UPSTI IDE) */
+    isDarkTheme() {
+      const url = window.location.href;
+      return url.includes('/ideFlex/upsti') ||
+             url.includes('/upsti/') ||
+             document.body.classList.contains('enable-motion') ||
+             document.querySelector('.titlebar') !== null;
+    },
+
+    /** Actualiza la clase de tema en el modal */
+    updateTheme() {
+      if (!this.overlayEl) return;
+      if (this.isDarkTheme()) {
+        this.overlayEl.classList.add('fg-theme-dark');
+      } else {
+        this.overlayEl.classList.remove('fg-theme-dark');
+      }
+    },
+
     createUI() {
       if (this.overlayEl) return;
 
@@ -640,6 +662,8 @@
       if (closeBtn) {
         closeBtn.addEventListener('click', () => this.close());
       }
+
+      this.updateTheme();
 
       // Botón limpiar
       clearBtn.addEventListener('click', () => {
@@ -1052,6 +1076,7 @@
     /** Abrir el modal */
     open(initialQuery = '') {
       this.createUI();
+      this.updateTheme();
       this.collectItems();
       this.isOpen = true;
       this.overlayEl.classList.add('visible');
