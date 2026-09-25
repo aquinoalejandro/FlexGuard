@@ -14,12 +14,15 @@ FlexGuard es una extension de navegador pensada para facilitar el trabajo diario
 ## Que podes hacer con la extension
 
 ### 1. En FlexMind IDE (IDE clasico)
+* **Buscador rapido de modulos (Ctrl+P / Alt+M):** Abre una ventana de busqueda tipo Spotlight. Podes pegar la ruta copiada desde SIGAPP o escribir el nombre de un archivo o modulo. Busca entre tus archivos recientes y el arbol del sistema, expande las carpetas automaticamente y abre el archivo con un solo Enter. Tambien cuenta con un boton de lupa en la barra lateral.
 * **Descarga individual:** Agrega un boton verde de descarga en la barra de herramientas de cada archivo abierto en el editor. Al presionarlo, guarda el archivo con su nombre real.
 * **Descarga masiva:** En el panel lateral tenes un boton para descargar de una sola vez todos los archivos que tengas abiertos en pestañas.
 * **Deteccion continua:** Si abris archivos nuevos, la extension los detecta solos y les agrega su boton correspondiente sin que tengas que recargar la pagina.
 
 ### 2. En UPSTI IDE (nuevo IDE moderno)
-* **Integracion nativa en la barra superior:** Se incorporan dos botones en la barra de acciones:
+* **Buscador rapido de modulos (Ctrl+P / Alt+M):** Permite buscar y saltar a cualquier archivo del arbol o modulo mediante teclado o a traves del boton de busqueda en la barra superior.
+* **Integracion nativa en la barra superior:** Se incorporan botones en la barra de acciones:
+  * Buscar modulo o archivo.
   * Descargar archivo activo.
   * Descargar todos los archivos abiertos.
 * **Extraccion universal de codigo:** Obtiene el contenido directamente del editor Monaco (el mismo motor de VS Code), CodeMirror o cualquier variable interna del entorno.
@@ -27,7 +30,7 @@ FlexGuard es una extension de navegador pensada para facilitar el trabajo diario
 
 ### 3. En SIGAPP (entorno de pruebas y produccion)
 * **Inspector de modulos en tiempo real:** Al pasar el cursor sobre cualquier opcion del menu lateral izquierdo o del buscador de modulos, aparece un panel flotante que indica la ruta completa del archivo PHP (por ejemplo: `modulos/atp_acta_05/php/ver_atp_acta_05.php`) y su identificador.
-* **Atajo para copiar la ruta:** Manteniendo presionada la tecla Alt y haciendo clic sobre cualquier opcion del menu, la extension copia la ruta del archivo al portapapeles y te avisa mediante una notificacion en pantalla. Asi podes ir a tu IDE y abrir el archivo inmediatamente.
+* **Atajo para copiar la ruta:** Manteniendo presionada la tecla Alt y haciendo clic sobre cualquier opcion del menu, la extension copia la ruta del archivo al portapapeles y te avisa mediante una notificacion en pantalla. Al pasar a la pestaña del IDE, podes presionar Ctrl+P o hacer clic en el boton de pegar del buscador para abrirlo al instante.
 
 ---
 

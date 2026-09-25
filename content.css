@@ -256,3 +256,364 @@
   font-family: inherit;
 }
 
+/* ── Badge indicador de FlexGuard activo en FlexMind (tema claro) ── */
+#layout100 .flexguard-badge {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  color: #475569;
+}
+
+#layout100 .flexguard-badge__text {
+  color: #334155;
+}
+
+/* ── Botón de Búsqueda de Módulos en Toolbar ──────────────────────── */
+.flexguard-search-btn {
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+.flexguard-search-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.1);
+}
+
+/* ── Botón de Pegar en Árbol de FlexMind ───────────────────────────── */
+.flexguard-tree-paste {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 4px;
+  vertical-align: middle;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.flexguard-tree-paste:hover {
+  opacity: 0.8;
+  transform: scale(1.15);
+}
+
+/* ── Animación de resalte para nodo encontrado en árbol ───────────── */
+@keyframes flexguard-pulse-highlight {
+  0% { background-color: rgba(30, 96, 213, 0.45); box-shadow: 0 0 10px rgba(30, 96, 213, 0.5); }
+  50% { background-color: rgba(30, 96, 213, 0.2); box-shadow: 0 0 5px rgba(30, 96, 213, 0.25); }
+  100% { background-color: transparent; box-shadow: none; }
+}
+
+.flexguard-highlight-pulse {
+  animation: flexguard-pulse-highlight 2.5s ease-out forwards !important;
+  border-radius: 3px !important;
+  padding: 2px 4px !important;
+}
+
+/* ── Buscador de Módulos (Modal / Quick Open - Estilo FlexMind Claro) ─ */
+.fg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999998;
+  background: rgba(15, 23, 42, 0.38);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-out;
+}
+
+.fg-modal-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fg-modal-box {
+  width: 92%;
+  max-width: 620px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-10px) scale(0.98);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #1e293b;
+}
+
+.fg-modal-overlay.visible .fg-modal-box {
+  transform: translateY(0) scale(1);
+}
+
+.fg-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 16px;
+  background: linear-gradient(to bottom, #f8fafc, #edf2f7);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fg-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.fg-modal-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.fg-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.fg-modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.fg-modal-searchbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.fg-modal-searchbar svg {
+  color: #1e60d5;
+  flex-shrink: 0;
+}
+
+.fg-modal-input {
+  flex: 1;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  color: #0f172a;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.fg-modal-input:focus {
+  border-color: #1e60d5;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(30, 96, 213, 0.18);
+}
+
+.fg-modal-input::placeholder {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.fg-modal-paste-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e8f1fd;
+  border: 1px solid #c7dcfa;
+  color: #1e60d5;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.fg-modal-paste-chip:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.fg-modal-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.fg-modal-clear:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.fg-modal-results {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.fg-modal-results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fg-modal-results::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.fg-modal-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.1s ease;
+  user-select: none;
+  border-left: 3px solid transparent;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.fg-modal-item:hover,
+.fg-modal-item.selected {
+  background: #f0f7ff;
+  border-left-color: #1e60d5;
+}
+
+.fg-modal-item-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #64748b;
+}
+
+.fg-modal-item.selected .fg-modal-item-icon {
+  color: #1e60d5;
+}
+
+.fg-modal-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fg-modal-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fg-modal-item-path {
+  font-size: 11px;
+  color: #64748b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fg-modal-item-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  flex-shrink: 0;
+}
+
+.fg-badge-recent {
+  background: #e8f8f0;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.fg-badge-tree {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.fg-badge-module {
+  background: #faf5ff;
+  color: #7e22ce;
+  border: 1px solid #e9d5ff;
+}
+
+.fg-badge-search {
+  background: #fefce8;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.fg-modal-empty {
+  padding: 28px 18px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.fg-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.fg-modal-footer kbd {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 10px;
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-family: inherit;
+}
+
