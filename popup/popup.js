@@ -39,6 +39,8 @@
           if (body && body.classList.contains('ondevelope')) return 'FlexMind IDE';
           // UPSTI IDE
           if (document.body.classList.contains('enable-motion') && document.querySelector('.titlebar')) return 'UPSTI IDE';
+          // SIGAPP
+          if (document.querySelector('.openSys[data-url]') || document.getElementById('browser') || window.location.hostname.includes('sigapp')) return 'SIGAPP (Vistas)';
           return null;
         }
       },

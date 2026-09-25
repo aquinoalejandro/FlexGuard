@@ -469,6 +469,137 @@
   };
 
   // ╔══════════════════════════════════════════════════════════════════╗
+  // ║  VARIANTE 3 – SIGAPP (Visualizador de módulos y vistas)          ║
+  // ╚══════════════════════════════════════════════════════════════════╝
+
+  const sigappApp = {
+    tooltipEl: null,
+    hideTimer: null,
+
+    detect() {
+      return !!document.querySelector('.openSys[data-url]') ||
+             !!document.getElementById('browser') ||
+             !!document.getElementById('wrapSearchMods') ||
+             document.body.classList.contains('sidebar-on') ||
+             window.location.hostname.includes('sigapp');
+    },
+
+    getOrCreateTooltip() {
+      if (!this.tooltipEl) {
+        this.tooltipEl = document.createElement('div');
+        this.tooltipEl.id = 'flexguard-module-tooltip';
+        document.body.appendChild(this.tooltipEl);
+      }
+      return this.tooltipEl;
+    },
+
+    showTooltip(targetEl, dataUrl) {
+      if (!dataUrl) return;
+      clearTimeout(this.hideTimer);
+
+      const tooltip = this.getOrCreateTooltip();
+      const modId = targetEl.id || targetEl.getAttribute('data-id') || '';
+
+      // Separar directorio y archivo
+      const slashIdx = dataUrl.lastIndexOf('/');
+      let dir = '';
+      let file = dataUrl;
+      if (slashIdx !== -1) {
+        dir = dataUrl.substring(0, slashIdx + 1);
+        file = dataUrl.substring(slashIdx + 1);
+      }
+
+      tooltip.innerHTML = `
+        <div class="fg-tooltip-header">
+          <span class="fg-tooltip-badge">
+            <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7c0-1.1.9-2 2-2h4l2 2h6c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V7z"></path></svg>
+            MÓDULO PHP
+          </span>
+          ${modId ? `<span class="fg-tooltip-id">#${modId}</span>` : ''}
+        </div>
+        <div class="fg-tooltip-body" title="${dataUrl}">
+          <span class="fg-tooltip-dir">${dir}</span><span class="fg-tooltip-file">${file}</span>
+        </div>
+        <div class="fg-tooltip-footer">
+          <span><kbd>Alt</kbd> + Clic para copiar ruta</span>
+        </div>
+      `;
+
+      // Posicionamiento dinámico
+      const rect = targetEl.getBoundingClientRect();
+      const tooltipW = 390;
+      const tooltipH = 75;
+
+      let left = rect.right + 12;
+      let top = rect.top + (rect.height / 2) - (tooltipH / 2);
+
+      // Si sobrepasa el borde derecho
+      if (left + tooltipW > window.innerWidth - 10) {
+        left = Math.max(10, rect.left - tooltipW - 12);
+      }
+
+      // Restricción vertical
+      if (top < 10) top = 10;
+      if (top + tooltipH > window.innerHeight - 10) {
+        top = window.innerHeight - tooltipH - 10;
+      }
+
+      tooltip.style.left = `${Math.round(left)}px`;
+      tooltip.style.top = `${Math.round(top)}px`;
+      tooltip.classList.add('visible');
+    },
+
+    hideTooltip() {
+      if (!this.tooltipEl) return;
+      this.hideTimer = setTimeout(() => {
+        if (this.tooltipEl) {
+          this.tooltipEl.classList.remove('visible');
+        }
+      }, 70);
+    },
+
+    init() {
+      console.log('[FlexGuard] SIGAPP detectado – Tooltips de módulos activos.');
+      const self = this;
+
+      // Delegación de eventos para mouseover / mouseout (soporta elementos dinámicos)
+      document.addEventListener('mouseover', (e) => {
+        const link = e.target.closest('.openSys[data-url]');
+        if (!link) return;
+        const dataUrl = link.getAttribute('data-url');
+        if (dataUrl) {
+          self.showTooltip(link, dataUrl);
+        }
+      }, true);
+
+      document.addEventListener('mouseout', (e) => {
+        const link = e.target.closest('.openSys[data-url]');
+        if (!link) return;
+        self.hideTooltip();
+      }, true);
+
+      // Alt + Clic para copiar ruta al portapapeles
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('.openSys[data-url]');
+        if (!link) return;
+
+        if (e.altKey) {
+          e.preventDefault();
+          e.stopPropagation();
+          const dataUrl = link.getAttribute('data-url');
+          if (dataUrl) {
+            navigator.clipboard.writeText(dataUrl).then(() => {
+              showToast(`Ruta copiada: ${dataUrl}`);
+            }).catch(() => {
+              showToast(`Módulo: ${dataUrl}`);
+            });
+          }
+        }
+      }, true);
+    }
+  };
+
+  // ╔══════════════════════════════════════════════════════════════════╗
   // ║  INICIALIZACIÓN                                                 ║
   // ╚══════════════════════════════════════════════════════════════════╝
 
@@ -480,6 +611,11 @@
       detected = true;
     } else if (upstiIDE.detect()) {
       upstiIDE.init();
+      detected = true;
+    }
+
+    if (sigappApp.detect()) {
+      sigappApp.init();
       detected = true;
     }
 
