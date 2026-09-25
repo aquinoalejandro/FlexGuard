@@ -10,17 +10,8 @@
   },
   "permissions": [
     "activeTab",
-    "scripting",
-    "storage",
-    "alarms"
+    "scripting"
   ],
-  "host_permissions": [
-    "https://api.github.com/repos/aquinoalejandro/FlexGuard/*",
-    "https://raw.githubusercontent.com/aquinoalejandro/FlexGuard/*"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

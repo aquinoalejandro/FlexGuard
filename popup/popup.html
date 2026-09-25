@@ -11,54 +11,18 @@
       <div class="popup-logo">
         <img src="../icons/icon48.png" alt="FlexGuard" width="28" height="28">
         <div>
-          <div class="title-row">
-            <h1>FlexGuard</h1>
-            <span class="commit-pill" id="commitBadge" title="Commit actual">#69f9a22</span>
-          </div>
-          <span class="popup-version" id="versionBadge">v1.0.0</span>
+          <h1>FlexGuard</h1>
+          <span class="popup-version">v1.0.0</span>
         </div>
       </div>
     </header>
 
     <div class="popup-body">
-      <!-- Estado de detección de IDE -->
       <div class="popup-status" id="status">
         <span class="status-dot" id="statusDot"></span>
         <span class="status-text" id="statusText">Detectando IDE...</span>
       </div>
 
-      <!-- Tarjeta del Auto-Actualizador de GitHub -->
-      <div class="update-card" id="updateCard">
-        <div class="update-card-header">
-          <div class="update-title-group">
-            <svg class="update-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-            </svg>
-            <span class="update-card-title">Actualizador de GitHub</span>
-          </div>
-          <button id="btnCheckUpdates" class="btn-check-update" title="Buscar cambios en GitHub ahora">
-            <svg class="refresh-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M23 4v6h-6M1 20v-6h6"/>
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-            </svg>
-            <span>Buscar</span>
-          </button>
-        </div>
-
-        <div class="update-card-body" id="updateCardBody">
-          <!-- Renderizado dinámicamente por popup.js:
-               - Estado al día
-               - Estado actualización disponible
-               - Estado buscando...
-          -->
-          <div class="update-status-loading">
-            <span class="spinner-dot"></span>
-            <span>Verificando estado...</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Desplegable de funcionalidades -->
       <details class="popup-collapsible">
         <summary class="popup-summary">
           <span class="summary-left">
@@ -104,16 +68,11 @@
     </div>
 
     <footer class="popup-footer">
-      <div class="footer-links">
-        <span>Hecho para FlexMind IDE</span>
-        <span>•</span>
-        <a href="https://github.com/aquinoalejandro/FlexGuard" target="_blank" class="footer-repo-link" title="Ver repositorio en GitHub">GitHub</a>
-      </div>
+      <span>Hecho para FlexMind IDE</span>
       <span class="popup-author">por Alejandro Aquino</span>
     </footer>
   </div>
 
-  <script src="../version.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
